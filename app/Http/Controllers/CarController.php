@@ -13,7 +13,9 @@ class CarController extends Controller
      */
     public function index()
     {
-        $cars = Car::all();
+        //$cars = Car::all();
+        $cars = Car::with('category')->get();
+        // dd($cars);
         return view('cars.index', [
             'cars' => $cars
         ]);
@@ -40,7 +42,10 @@ class CarController extends Controller
         // $car->color = $request->color;
         // $car->save();
 
-        Car::create($request->only(['type', 'model', 'year', 'price', 'color']));
+        // Car::create($request->only(['type', 'model', 'year', 'price', 'color']));
+
+        $validated = $request->validated();
+        Car::create($validated);
 
         return redirect()->route('cars.index')->with('success', 'Car created successfully');
     }
@@ -68,15 +73,22 @@ class CarController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $car = Car::findOrFail($id);
+        return view('cars.edit', [
+            'car' => $car
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreCarRequest $request, string $id)
     {
-
+        //UPDATE cars SET (type='Octavia', model = 'Skoda' ....) WHERE id = 2
+        $car = Car::findOrFail($id);
+        $validated = $request->validated();
+        $car->update($validated);
+        return redirect()->route('cars.show', $id)->with('success', 'Car updated successfully');
     }
 
     /**
@@ -84,6 +96,9 @@ class CarController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $car = Car::findorFail($id);
+        $car->delete();
+        return redirect()->route('cars.index')->with('success', 'Car deleted successfully');
+
     }
 }
