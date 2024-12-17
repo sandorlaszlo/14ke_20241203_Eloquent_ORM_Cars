@@ -12,6 +12,7 @@
 
 <body>
     <div class="container">
+        <x-nav></x-nav>
 
         @session('success')
             <div class="alert alert-success">{{session('success')}}</div>
