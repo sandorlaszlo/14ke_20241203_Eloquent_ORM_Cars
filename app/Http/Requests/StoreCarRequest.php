@@ -26,7 +26,8 @@ class StoreCarRequest extends FormRequest
             'model' => 'required|string|max:255',
             'year' => 'integer|min:1900|max:' . now()->year,
             'price' => 'numeric|min:0',
-            'color' => 'nullable|string'
+            'color' => 'nullable|string',
+            'category_id' => 'required|exists:categories,id'
         ];
     }
 }

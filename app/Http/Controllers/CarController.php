@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCarRequest;
 use App\Models\Car;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CarController extends Controller
@@ -26,7 +27,8 @@ class CarController extends Controller
      */
     public function create()
     {
-        return view('cars.create');
+        $categories = Category::all();
+        return view('cars.create', ['categories' => $categories]);
     }
 
     /**

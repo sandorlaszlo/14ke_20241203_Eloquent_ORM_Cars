@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
+    protected $fillable = ['name'];
+    
     /**
      * Get all of the cars for the Category
      *
